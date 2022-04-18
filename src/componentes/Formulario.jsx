@@ -33,7 +33,7 @@ export default function Formulario({ cliente, cargando }) {
 
             if (cliente.id) {
                 // Editar Cliente
-                const url = `http://localhost:4000/clientes/${cliente.id}`;
+                const url = `${import.meta.env.VITE_API_URL}/${cliente.id}`;
                 respuesta = await fetch(url, {
                     method: 'PUT',
                     body: JSON.stringify(valores),
@@ -44,7 +44,7 @@ export default function Formulario({ cliente, cargando }) {
 
             } else {
                 // Nuevo Cliente
-                const url = 'http://localhost:4000/clientes';
+                const url = import.meta.env.VITE_API_URL;
                 respuesta = await fetch(url, {
                     method: 'POST',
                     body: JSON.stringify(valores),
