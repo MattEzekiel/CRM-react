@@ -1,6 +1,6 @@
-export default function Alerta({children}) {
+export default function Alerta({ children, success}) {
     return (
-        <div className={"text-center my-4 bg-red-600 text-white uppercase font-bold p-3"}>
+        <div className={`${success ? 'bg-green-600' : 'bg-red-600'} text-center mt-4 text-white uppercase font-bold p-3`}>
             {children}
         </div>
     )

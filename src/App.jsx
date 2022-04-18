@@ -3,6 +3,7 @@ import Layout from "./layout/Layout";
 import Home from "./paginas/Home";
 import NuevoCliente from "./paginas/NuevoCliente";
 import EditarCliente from "./paginas/EditarCliente";
+import VerCliente from "./paginas/VerCliente";
 
 function App() {
     return(
@@ -21,8 +22,12 @@ function App() {
                         element={<NuevoCliente />}
                     />
                     <Route
-                        path={"editar-cliente/:id"}
+                        path={"editar/:id"}
                         element={<EditarCliente />}
+                    />
+                    <Route
+                        path={":id"}
+                        element={<VerCliente />}
                     />
                 </Route>
             </Routes>

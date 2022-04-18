@@ -1,8 +1,14 @@
-import {Formik, Form, Field } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from 'yup';
 import Alerta from "./Alerta";
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom'
+import Spinner from "./Spinner";
 
-export default function Formulario() {
+export default function Formulario({ cliente, cargando }) {
+    const [success, setSuccess] = useState(false);
+    const navigate = useNavigate();
+
     const nuevoClienteSchema = Yup.object().shape({
         nombre: Yup.string()
             .min(3,'El nombre es muy corto')
@@ -21,29 +27,76 @@ export default function Formulario() {
             .typeError('Campo no válido'),
     });
 
-    const handleSubmit = valores => {
-      console.log(valores)
+    const handleSubmit = async valores => {
+        try {
+            let respuesta;
+
+            if (cliente.id) {
+                // Editar Cliente
+                const url = `http://localhost:4000/clientes/${cliente.id}`;
+                respuesta = await fetch(url, {
+                    method: 'PUT',
+                    body: JSON.stringify(valores),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+            } else {
+                // Nuevo Cliente
+                const url = 'http://localhost:4000/clientes';
+                respuesta = await fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify(valores),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            }
+            const resultado = await respuesta.json();
+
+            if (resultado.id) {
+                setSuccess(true);
+            }
+
+            setTimeout(() => {
+                navigate('/clientes');
+            },3000);
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
+        cargando ? <Spinner /> : (
         <div className={"bg-white mt-10 px-5 py-10 rounded-md shadow-md md:w-3/4 mx-auto"}>
-            <h3 className={"text-grey-600 font-bold text-xl uppercase text-center"}>Agregar Cliente</h3>
+            <h3 className={"text-grey-600 font-bold text-xl uppercase text-center"}>{cliente?.nombre ? 'Editar' : 'Agregar'} Cliente</h3>
             <Formik
                 initialValues={{
-                    nombre: '',
-                    empresa: '',
-                    email: '',
-                    telefono: '',
-                    notas: ''
+                    nombre: cliente?.nombre ?? '',
+                    empresa: cliente?.empresa ?? '',
+                    email: cliente?.email ?? '',
+                    telefono: cliente?.telefono ?? '',
+                    notas: cliente?.notas ?? ''
                 }}
-                onSubmit={ values => {
-                    handleSubmit(values)
+                enableReinitialize={true}
+                onSubmit={ async (values, {resetForm}) => {
+                    await handleSubmit(values);
+                    resetForm()
                 }}
                 validationSchema={nuevoClienteSchema}
             >
                 {({errors, touched}) => {
                     return (
                 <Form className={"mt-10"}>
+                    { success && (
+                        <div className={"mb-4"}>
+                            <Alerta
+                                success={success}
+                            >Cliente {cliente?.nombre ? 'editado' : 'añadido'} correctamente</Alerta>
+                        </div>
+                    )}
                     <div className={"mb-4"}>
                         <label
                             htmlFor={"nombre"}
@@ -54,7 +107,7 @@ export default function Formulario() {
                             type={"text"}
                             name={"nombre"}
                             id={"nombre"}
-                            placeHolder={"Nombre del cliente"}
+                            placeholder={"Nombre del cliente"}
                         />
                         { errors.nombre && touched.nombre ? (
                             <Alerta>
@@ -72,7 +125,7 @@ export default function Formulario() {
                             type={"text"}
                             name={"empresa"}
                             id={"empresa"}
-                            placeHolder={"Nombre de la empresa"}
+                            placeholder={"Nombre de la empresa"}
                         />
                         { errors.empresa && touched.empresa ? (
                             <Alerta>
@@ -90,7 +143,7 @@ export default function Formulario() {
                             type={"text"}
                             name={"email"}
                             id={"email"}
-                            placeHolder={"Email de contacto"}
+                            placeholder={"Email de contacto"}
                         />
                         { errors.email && touched.email ? (
                             <Alerta>
@@ -108,7 +161,7 @@ export default function Formulario() {
                             type={"tel"}
                             name={"telefono"}
                             id={"telefono"}
-                            placeHolder={"Teléfono de contacto"}
+                            placeholder={"Teléfono de contacto"}
                         />
                         { errors.telefono && touched.telefono ? (
                             <Alerta>
@@ -127,16 +180,17 @@ export default function Formulario() {
                             type={"text"}
                             name={"notas"}
                             id={"notas"}
-                            placeHolder={"Notas del Cliente"}
+                            placeholder={"Notas del Cliente"}
                         />
                     </div>
                     <button
                         type={"submit"}
                         className={"mt-5 w-full bg-blue-800 p-3 text-white uppercase font-bold text-lg"}
-                    >Agregar cliente</button>
+                    >{cliente?.nombre ? 'Guardar cambios' : 'Agregar cliente'}</button>
                 </Form>
                 )}}
             </Formik>
         </div>
+        )
     )
 }
