@@ -15,11 +15,13 @@ function App() {
             <Routes>
                 <Route
                     path={"/"}
-                    element={<Inicio />}
+                    element={<Inicio
+                        setLogueado={setLogueado}
+                    />}
                 />
                 <Route
                     path={"/clientes"}
-                    element={ logueado ? (<Layout />) : (<Navigate replace to={"/"} />) }
+                    element={ logueado ? (<Layout setLogueado={setLogueado} />) : (<Navigate replace to={"/"} />) }
                 >
                     <Route
                         index

@@ -9,5 +9,11 @@
       "id": 1
     }
   ],
-  "usuarios": []
+  "usuarios": [
+    {
+      "email": "matias.bubello@davinci.edu.ar",
+      "password": "1234",
+      "id": 1
+    }
+  ]
 }
