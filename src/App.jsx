@@ -1,21 +1,29 @@
-import { BrowserRouter, Routes, Route} from 'react-router-dom'
+import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from "./layout/Layout";
-import Home from "./paginas/Home";
+import HomeClientes from "./paginas/HomeClientes";
 import NuevoCliente from "./paginas/NuevoCliente";
 import EditarCliente from "./paginas/EditarCliente";
 import VerCliente from "./paginas/VerCliente";
+import Inicio from "./paginas/Inicio";
+import {useState} from "react";
 
 function App() {
+    const [logueado, setLogueado] = useState(false);
+
     return(
         <BrowserRouter>
             <Routes>
                 <Route
+                    path={"/"}
+                    element={<Inicio />}
+                />
+                <Route
                     path={"/clientes"}
-                    element={<Layout />}
+                    element={ logueado ? (<Layout />) : (<Navigate replace to={"/"} />) }
                 >
                     <Route
                         index
-                        element={<Home />}
+                        element={<HomeClientes />}
                     />
                     <Route
                         path={"nuevo"}

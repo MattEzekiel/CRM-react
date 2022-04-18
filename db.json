@@ -1,28 +1,13 @@
 {
   "clientes": [
     {
-      "nombre": "Karen",
-      "empresa": "Karen indumentaria",
-      "email": "thekaren@fashon.com",
-      "telefono": "",
-      "notas": "Karen fashon",
-      "id": 2
-    },
-    {
-      "nombre": "Carlos",
-      "empresa": "Parrilla don carlos",
-      "email": "parrilladoncarlo@gmail.com",
-      "telefono": "11546789412",
-      "notas": "La parrila de don carlo",
-      "id": 3
-    },
-    {
-      "nombre": "Matias",
+      "nombre": "Matías",
       "empresa": "Devops",
       "email": "matias.bubello@davinci.edu.ar",
       "telefono": "",
-      "notas": "Probando React",
-      "id": 4
+      "notas": "Desarrollando React",
+      "id": 1
     }
-  ]
+  ],
+  "usuarios": []
 }

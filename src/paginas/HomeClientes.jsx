@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import Cliente from "../componentes/Cliente";
 import Spinner from "../componentes/Spinner";
 
-export default function Home() {
+export default function HomeClientes() {
     const [clientes, setClientes] = useState([]);
     const [cargando, setCargando] = useState(false);
 
@@ -62,13 +62,19 @@ export default function Home() {
                         </td>
                     </tr>
                     :
-                    clientes.map( cliente => (
-                    <Cliente
-                        key={cliente.id}
-                        cliente={cliente}
-                        handleEliminar={handleEliminar}
-                    />
-                ))}
+                    Object.keys(clientes).length > 0 ?
+                        clientes.map( cliente => (
+                            <Cliente
+                                key={cliente.id}
+                                cliente={cliente}
+                                handleEliminar={handleEliminar}
+                            />
+                        ))
+                    :
+                        <tr>
+                            <td colSpan={"4"} className={"text-center text-2xl font-bold py-5"}>No hay ningún cliente cargado</td>
+                        </tr>
+                }
                 </tbody>
             </table>
         </>
