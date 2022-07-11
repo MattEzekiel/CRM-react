@@ -185,7 +185,8 @@ export default function Formulario({ cliente, cargando }) {
                     </div>
                     <button
                         type={"submit"}
-                        className={"mt-5 w-full bg-blue-800 p-3 text-white uppercase font-bold text-lg"}
+                        className={`mt-5 w-full bg-blue-800 p-3 text-white uppercase font-bold text-lg ${success ? 'disabled:bg-blue-200 cursor-not-allowed' : ''}`}
+                        disabled={success}
                     >{cliente?.nombre ? 'Guardar cambios' : 'Agregar cliente'}</button>
                 </Form>
                 )}}

@@ -3,6 +3,7 @@
 
 ## Activar base de datos local
 <blockquote>json-server --watch db.json --port 4000</blockquote>
+<p>Usuarios en db.json</p>
 
 ## Comandos
 <p>Instalar dependencias</p>
